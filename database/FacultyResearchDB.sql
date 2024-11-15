@@ -9,7 +9,7 @@ USE facultyResearchDB;
 DROP TABLE IF EXISTS Major;
 
 CREATE TABLE Major (
-    majorID INT PRIMARY KEY COMMENT "Unique identifier for each major",
+    majorID INT PRIMARY KEY AUTO_INCREMENT  COMMENT "Unique identifier for each major",
     name VARCHAR(40) NOT NULL COMMENT "Name of the major"
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = "Stores major information";
 
@@ -17,10 +17,10 @@ CREATE TABLE Major (
 DROP TABLE IF EXISTS Faculty;
 
 CREATE TABLE Faculty (
-    facultyID INT PRIMARY KEY COMMENT "Unique identifier for each faculty member",
+    facultyID INT PRIMARY KEY AUTO_INCREMENT  COMMENT "Unique identifier for each faculty member",
     firstName VARCHAR(30) NOT NULL COMMENT "First name of the faculty member",
     lastName VARCHAR(30) NOT NULL COMMENT "Last name of the faculty member",
-    phone INT COMMENT "Phone number of the faculty member",
+    phone VARCHAR(15) COMMENT "Phone number of the faculty member, format '(xxx) xxx-xxxx'",
     email VARCHAR(55) NOT NULL UNIQUE COMMENT "Email address of the faculty member",
     building VARCHAR(4) COMMENT "Building code for the faculty member's office",
     office VARCHAR(30) COMMENT "Office location of the faculty member"
@@ -30,10 +30,10 @@ CREATE TABLE Faculty (
 DROP TABLE IF EXISTS Student;
 
 CREATE TABLE Student (
-    studentID INT PRIMARY KEY COMMENT "Unique identifier for each student",
+    studentID INT PRIMARY KEY AUTO_INCREMENT  COMMENT "Unique identifier for each student",
     firstName VARCHAR(30) NOT NULL COMMENT "First name of the student",
     lastName VARCHAR(30) NOT NULL COMMENT "Last name of the student",
-    phone INT COMMENT "Phone number of the student",
+    phone VARCHAR(15) COMMENT "Phone number of the student, format '(xxx) xxx-xxxx'",
     email VARCHAR(55) NOT NULL UNIQUE COMMENT "Email address of the student",
     majorID INT NOT NULL COMMENT "Major ID associated with the student",
     FOREIGN KEY (majorID) REFERENCES Major(majorID) ON DELETE CASCADE
@@ -43,9 +43,9 @@ CREATE TABLE Student (
 DROP TABLE IF EXISTS Account;
 
 CREATE TABLE Account (
-    accountID INT PRIMARY KEY COMMENT "Unique identifier for each account",
+    accountID INT PRIMARY KEY AUTO_INCREMENT  COMMENT "Unique identifier for each account",
     email VARCHAR(55) NOT NULL UNIQUE COMMENT "Email associated with the account",
-    password VARCHAR(40) NOT NULL COMMENT "Password for the account",
+    password VARCHAR(60) NOT NULL COMMENT "Password for the account",
     type ENUM('Faculty', 'Student') NOT NULL COMMENT "Type of account: Faculty or Student"
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = "Stores account login details";
 
@@ -53,7 +53,7 @@ CREATE TABLE Account (
 DROP TABLE IF EXISTS Abstract;
 
 CREATE TABLE Abstract (
-    abstractID INT PRIMARY KEY COMMENT "Unique identifier for each abstract",
+    abstractID INT PRIMARY KEY AUTO_INCREMENT  COMMENT "Unique identifier for each abstract",
     abstractFile MEDIUMTEXT NOT NULL COMMENT "Content of the abstract"
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = "Stores abstracts";
 
