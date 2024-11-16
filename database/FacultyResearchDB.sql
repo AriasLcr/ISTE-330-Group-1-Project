@@ -98,3 +98,23 @@ CREATE TABLE Student_Interest (
     FOREIGN KEY (studentID) REFERENCES Student(studentID) ON DELETE CASCADE,
     FOREIGN KEY (interestID) REFERENCES Interest(ID) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = "Associates students with interests";
+
+-- Insert Faculty Data
+INSERT INTO Faculty (firstName, lastName, phone, email, building, office) VALUES
+('Armstrong', 'Subero', '(585) 111-1111', 'asubero@rit.edu', 'GOL', '2315'),
+('Ashish', 'Gupta', '(585) 111-1112', 'agupta@rit.edu', 'GOL', '2621'),
+('Barbara', 'Ericson', '(585) 111-1113', 'bericson@rit.edu', 'GOL', '2111'),
+('Carlos', 'Oliveira', '(585) 111-1114', 'coliveira@rit.edu', 'GOL', '2615'),
+('David', 'Sutton', '(585) 111-1115', 'dsutton@rit.edu', 'GOL', 'online'),
+('George', 'Defenbaugh', '(585) 111-1116', 'gdefenbaugh@rit.edu', 'GOL', '2627'),
+('Richard', 'Smedley', '(585) 111-1117', 'rsmedley@rit.edu', 'GOL', '2619'),
+('Jim', 'Habermas', '(585) 746-9331', 'jhabermas@rit.edu', 'GOL', 'online'),
+('Jonathan', 'Bartlett', '(585) 111-1119', 'jbartlett@rit.edu', 'GOL', 'online'),
+('Kishori', 'Sharan', '(585) 111-1110', 'ksharan@rit.edu', 'GOL', '2617'),
+('Mark', 'Simon', '(585) 111-1111', 'msimon@rit.edu', 'GOL', '2443'),
+('Michael', 'Coughlan', '(585) 111-1112', 'mcoughlan@rit.edu', 'GOL', '2645'),
+('Michael', 'Inden', '(585) 111-1123', 'minden@rit.edu', 'GOL', 'online'),
+('Slobodan', 'Dmitrovic', '(585) 111-1114', 'sdmitrovic@rit.edu', 'GOL', '2323'),
+('Svein', 'Linge', '(585) 111-1115', 'slinge@rit.edu', 'GOL', '2655'),
+('Hans', 'Langtangen', '(585) 111-1116', 'hlangtangen@rit.edu', 'GOL', '2518'),
+('Vaskaran', 'Sarcar', '(585) 111-1117', 'vsarcar@rit.edu', 'GOL', '2651');
