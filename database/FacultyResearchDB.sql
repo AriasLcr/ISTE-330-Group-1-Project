@@ -54,6 +54,7 @@ DROP TABLE IF EXISTS Abstract;
 
 CREATE TABLE Abstract (
     abstractID INT PRIMARY KEY AUTO_INCREMENT  COMMENT "Unique identifier for each abstract",
+    title VARCHAR(100) NOT NULL COMMENT "Title of the abstract",
     abstractFile MEDIUMTEXT NOT NULL COMMENT "Content of the abstract"
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = "Stores abstracts";
 
