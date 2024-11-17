@@ -1,4 +1,4 @@
-Title: Test Your Skills in C# Programming - Review and Analyze Important Features of C#
+Title: Test Your Skills in C# Programming
 By: Vaskaran Sarcar
 Abstract: Review the fundamental constructs in C# using Q&As and program segments to boost your confidence and gain expertise. This book will help you analyze your programs more efficiently and enhance your programming skills.
 

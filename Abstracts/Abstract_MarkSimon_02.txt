@@ -1,4 +1,4 @@
-Title: Getting Started with SQL and Databases - Managing and Manipulating Data with SQL
+Title: Getting Started with SQL and Databases
 By: Mark Simon
 Abstract: Learn the basics of writing SQL scripts. Using Standard SQL as the starting point, this book teaches writing SQL in various popular dialects, including PostgreSQL, MySQL/MariaDB, Microsoft SQL Server, Oracle, and SQLite.
 

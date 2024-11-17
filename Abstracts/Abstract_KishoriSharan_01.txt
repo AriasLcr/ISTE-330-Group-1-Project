@@ -1,4 +1,4 @@
-Title: Java APIs, Extensions and Libraries - With JavaFX, JDBC, jmod, jlink, Networking, and the Process API
+Title: Java APIs, Extensions and Libraries
 By: Kishori Sharan
 Abstract: This book completes the Apress Java learning journey and is a comprehensive approach to learning Java APIs, extensions, and modules such as Java EE integration, mobile Java modules, JavaFX, and JDBC. In this book, you'll learn how to build user interfaces with Swing and JavaFX as well as how to write network programs with the new Java 9 and much more.
 

@@ -1,4 +1,4 @@
-Title: Modern C++ for Absolute Beginners - A Friendly Introduction to C++ Programming Language and C++11 to C++20 Standards
+Title: Modern C++ for Absolute Beginners - A Friendly Introduction
 By: Slobodan Dmitrovic
 Abstract: Learn the C++ programming language in a structured, straightforward, and friendly manner. This book teaches the basics of the modern C++ programming language, C++ Standard Library, and modern C++ standards. No previous programming experience is required.
 
