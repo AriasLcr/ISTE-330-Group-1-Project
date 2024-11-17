@@ -1,0 +1,5 @@
+Title: Programming for Absolute Beginners - Using the JavaScript Programming Language
+By: Jonathan Bartlett
+Abstract: New programmers start here...this book introduces students or aspiring professionals to the world of computer programming using JavaScript and related technologies. This book doesn't just teach the basics of programming, but also all of the tools that new programmers need to get started, including the basics of making web pages and how the Internet works. 
+
+Programming for Absolute Beginners offers practice problems, activities, and a host of resources to get new programmers started, plus a large glossary of terms introduced in the book and that a new programmer might encounter when learning on their own. No special software is required; this book will help you regardless of what your computer setup is, and source code will be freely available via GitHub.

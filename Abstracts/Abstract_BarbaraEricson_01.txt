@@ -1,0 +1,3 @@
+Title: Introduction to Computing and Programming in PYTHON – A Multimedia Approach 
+By: Barbara Ericson
+Abstract: The programming language used in this book is Python.  Python has been described as “executable pseudo-code.”  I have found that both computer science majors and non majors can learn Python.  Since Python is actually used for communications tasks (e.g., Web site Development), it’s relevant language for an in introductory computing course.  The specific dialect of Python used in this book is Jython.  Jython is Python.  The differences between Python (normally implemented in C) and Jython (which is implemented in Java) are akin to the differences between any two language implementations (e.g., Microsoft vs. GNU C++ implementations).

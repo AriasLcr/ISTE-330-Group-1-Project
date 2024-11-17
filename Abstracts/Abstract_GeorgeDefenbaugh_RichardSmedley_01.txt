@@ -1,0 +1,3 @@
+Title: C through Design
+By: George E. Defenbaugh, ‎Richard Smedley
+Abstract: 1988, This book presents ‘standard’ C, i.e., code that compiles cleanly with a compiler that meets the ANSI C standard.  This book has over 90 example programs that illustrate the topics of each chapters.  In addition complete working programs are developed fully, from design to program output.  This book is filled with Antibugging Notes (the stress traps to be avoided), and Quick Notes, that emphasize important points to be remembered.

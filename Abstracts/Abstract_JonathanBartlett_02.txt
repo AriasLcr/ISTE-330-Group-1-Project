@@ -1,0 +1,7 @@
+Title: Cloud Native Applications with Docker and Kubernetes
+By: Jonathan Bartlett
+Abstract: This book takes developers on a journey into the cloud with Docker and Kubernetes. It walks you through the basics of Docker containers, how they are built, run, and published, and how the Kubernetes system allows you to use containers to better manage a cloud native application. Additionally, it walks you through various issues in cloud architecture, and how to design a cloud architecture that will work with your application and your team. 
+
+The book takes a unique approach, getting you immersed in each subject with tutorials, then building up your technical knowledge, and finally backing up and thinking about more big-picture issues. Part one introduces Docker, building and working with Docker images, and covering best practices for Docker Containers. Part two covers the practicalities of "cloud native” and managing a Kubernetes application, including a full working example. The last part covers the design of cloud and microservice architectures, includingthe use of enterprise message queues, multi-site configurations and the common values that such architectures follow.
+
+This approach accelerates learning and keeps you moving forward without leaving you behind. The appendices also contain a wealth of worthwhile reference material for routine cloud application management.

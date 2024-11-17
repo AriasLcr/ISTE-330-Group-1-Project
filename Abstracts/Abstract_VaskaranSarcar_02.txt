@@ -1,0 +1,7 @@
+Title: Java Design Patterns
+By: Vaskaran Sarcar
+Abstract: Use the step-by-step approach of this book to learn and implement design patterns in real-world applications. It focuses on classical design patterns with Java 17 and Eclipse (2021-09). In addition to Gang of Four (GoF) design patterns, the book covers popular and alternative design patterns and includes criticisms of design patterns in a chapter on anti-patterns. 
+
+The book is divided into four parts. Part one covers the SOLID design principles and the Simple Factory pattern. Part two covers the 23 (GoF) design patterns, including the creational patterns, structural patterns, and behavioral patterns. Part three covers alternative design patterns, including the Null Object pattern, and the model-view-controller (MVC) pattern. Part four covers criticisms of design patterns with a quick overview of anti-patterns. It also includes a chapter on FAQs on design patterns.
+
+The book also includes a chapter on FAQs on design patterns. Each pattern is explained with real-world examples and the pros and cons of each of the design patterns are discussed. The book concludes with FAQs that can help you prepare for a job interview.

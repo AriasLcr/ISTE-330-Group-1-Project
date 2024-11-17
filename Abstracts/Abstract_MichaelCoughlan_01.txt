@@ -1,0 +1,9 @@
+Title: Beginning COBOL for Programmers
+By: Michael Coughlan
+Abstract: Beginning COBOL for Programmers is a comprehensive, sophisticated tutorial and modular skills reference on the COBOL programming language for established programmers. This book is for you if you are a developer who would like to—or must—add COBOL to your repertoire. Perhaps you recognize the opportunities presented by the current COBOL skills crisis, or are working in a mission critical enterprise which retains legacy COBOL applications. Whatever your situation, Beginning COBOL for Programmers meets your needs as an established programmer moving to COBOL.
+
+Beginning COBOL for Programmers includes comprehensive coverage of ANS 85 COBOL features and techniques, including control structures, condition names, sequential and direct access files, data redefinition, string handling, decimal arithmetic, subprograms, and the report writer. The final chapter includes a substantial introduction to object-oriented COBOL.
+
+Benefiting from over one hundred example programs, you’ll receive an extensive introduction to the core and advanced features of the COBOL language and will learn to apply these through comprehensive and varied exercises. If you've inherited some legacy COBOL, you’ll be able to grasp the COBOL idioms, understand the constructs, and recognize what's happening in the code you’re working with.
+
+Today’s enterprise application developers will find that COBOL skills open new—or old—doors, and this extensive COBOL reference is the book to help you acquire and develop your COBOL skills.

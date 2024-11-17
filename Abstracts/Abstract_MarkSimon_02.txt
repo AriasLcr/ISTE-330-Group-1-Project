@@ -1,0 +1,5 @@
+Title: Getting Started with SQL and Databases - Managing and Manipulating Data with SQL
+By: Mark Simon
+Abstract: Learn the basics of writing SQL scripts. Using Standard SQL as the starting point, this book teaches writing SQL in various popular dialects, including PostgreSQL, MySQL/MariaDB, Microsoft SQL Server, Oracle, and SQLite.
+
+The book starts with a general introduction to writing SQL and covers the basic concepts. Author Mark Simon then covers database principles, and how database tables are designed. He teaches you how to filter data using the WHERE clause, and you will work with NULL, numbers, dates, and strings. You will also understand sorting results using the ORDER BY clause, sorting by calculated columns, and limiting the number of results. By the end of the book, you will know how to insert and update data, and summarize data with aggregate functions and groups. Three appendices cover differences between SQL dialects, working with tables, and a crash course in PDO.

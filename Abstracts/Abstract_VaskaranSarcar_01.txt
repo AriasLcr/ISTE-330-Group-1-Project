@@ -1,0 +1,7 @@
+Title: Test Your Skills in C# Programming - Review and Analyze Important Features of C#
+By: Vaskaran Sarcar
+Abstract: Review the fundamental constructs in C# using Q&As and program segments to boost your confidence and gain expertise. This book will help you analyze your programs more efficiently and enhance your programming skills.
+
+The book is divided into three parts, where you will learn the fundamentals, object-oriented programming, and some advanced features of C#. In the first part, you will review C# and .NET basics along with the important constructs such as strings, arrays, and structures. In the second part, you'll review the concepts of object-oriented programming in detail. Here, you will go through various program segments in class and objects, inheritance, polymorphism, abstraction, encapsulation, and much more. You will also analyze the output of the given programs with the help of Q&A sections. The uses of interfaces, static class, and exception handling are discussed in the book along with some other important concepts in C#. In the third and last part, you will learn advanced features of C# programming such as delegates, events, lambdas, generics, and multithreading. Here, you'll also cover some of the latest features of C#.
+
+After reading this book, you will be able to analyze and apply the basic and frequently used features along with the advanced features of C#. 

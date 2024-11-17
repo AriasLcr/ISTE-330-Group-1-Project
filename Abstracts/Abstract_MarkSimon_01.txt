@@ -1,0 +1,7 @@
+Title: An Introduction to PHP - Learn PHP 8 to Create Dynamic Websites
+By: Mark Simon
+Abstract: Use PHP to enhance your web pages. This book shows you how PHP programming works, and how to write and organize PHP code.
+
+The book starts with steps to download and install a setup for a sample website that will form the basis for upcoming chapters. You start by writing PHP code and learn how to mix it with HTML and manage the code. From there, you will learn about dynamic content, along with a deep dive into form processing and sending email. Saving uploaded data and uploading files is discussed next. You will learn how to configure your PHP project and develop a library. You will then learn how to create an image catalog and manage data on your web page. By the end of the book, you will understand how to work with cookies, sessions, and logging in, followed by an example of creating a simple blog that reiterates the concepts developed in the previous chapters.
+
+After reading this book, you will be able to configure, create, and manage your dynamic website.

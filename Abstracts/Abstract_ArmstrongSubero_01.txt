@@ -1,0 +1,7 @@
+Title: Programming Microcontrollers with Python - Experience the Power of Embedded Python
+By: Armstrong Subero
+Abstract: For the first time microcontrollers are powerful enough to be programmed in Python. The landscape of embedded systems development is changing, microcontrollers are becoming more powerful, and the rise of the internet of things is leading more developers to get into hardware. This book provides the solid foundation to start your journey of embedded systems development and microcontroller programming with Python. 
+
+You’ll quickly realize the value of using Python. The theme of the book is simplicity and the cleanness and elegance of Python makes that possible. Featuring a step-by-step approach, this single source guide balances complexity and clarity with insightful explanations that you’ll easily grasp. 
+
+Python is quickly becoming the language of choice for applications such as machine learning and computer vision on embedded devices. What would previously be daunting and exceedingly difficult to do in C or C++ is now possible with Python because of its levelof abstraction. Programming Microcontrollers with Python is your path to bringing your existing skills to the embedded space.  
