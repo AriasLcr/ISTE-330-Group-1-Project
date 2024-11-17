@@ -129,7 +129,7 @@ BEGIN
    SELECT
       a.title AS `Abstract Title`,
       GROUP_CONCAT(CONCAT(f.lastName, ', ', f.firstName) 
-                   ORDER BY f.lastName SEPARATOR '; ') AS `Author(s)`,
+                   ORDER BY f.lastName SEPARATOR ' | ') AS `Author(s)`,
       SUBSTRING_INDEX(a.abstractFile, ' ', 4) AS `Abstract (truncated)`
    FROM
       Abstract a 
