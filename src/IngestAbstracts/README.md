@@ -11,8 +11,6 @@
 6. [Configuration](#configuration)
 7. [Error Handling](#error-handling)
 8. [Sample Output](#sample-output)
-9. [Troubleshooting](#troubleshooting)
-10. [Future Enhancements](#future-enhancements)
 
 ## Overview
 This project consists of two main Java classes: `AbstractDataLayer.java` and `AbstractPresentationLayer.java`. The purpose of these classes is to connect to the `FacultyResearchDB` database, read abstract data from text files, and store the abstracts and their associations with faculty in the database. The `AbstractPresentationLayer` acts as the user interface, while the `AbstractDataLayer` handles database operations.
@@ -69,16 +67,6 @@ Inserted abstract: Example Abstract Title
 Faculty member not found: John Doe
 Link between facultyID 1 and abstractID 5 already exists.
 ```
-
-## Troubleshooting
-- **Database Connection Issues**: Ensure your MySQL server is running and the credentials are correct.
-- **File Path Issues**: Ensure the path to the directory containing the `.txt` files is correct.
-- **Faculty Not Found**: Verify that the `Faculty` table contains entries matching the authors in the abstract files.
-
-## Future Enhancements
-- Add support for updating existing abstracts.
-- Extend author name matching to include partial matches or variations.
-- Improve the handling of multiple authors and middle names.
 
 ----
 
