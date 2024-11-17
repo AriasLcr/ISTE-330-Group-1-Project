@@ -128,12 +128,9 @@ CREATE PROCEDURE GetAbstractsInfo()
 BEGIN
    SELECT
       a.title AS `Abstract Title`,
-      GROUP_CONCAT(CONCAT(f.firstName, ' ', f.lastName) 
-                   ORDER BY f.lastName SEPARATOR ', ') AS `Author(s)`,
-      CONCAT(
-         SUBSTRING_INDEX(a.abstractFile, ' ', 4), 
-         IF(LENGTH(a.abstractFile) - LENGTH(REPLACE(a.abstractFile, ' ', '')) > 3, '...', '')
-      ) AS `Abstract (truncated)` 
+      GROUP_CONCAT(CONCAT(f.lastName, ', ', f.firstName) 
+                   ORDER BY f.lastName SEPARATOR '; ') AS `Author(s)`,
+      SUBSTRING_INDEX(a.abstractFile, ' ', 4) AS `Abstract (truncated)`
    FROM
       Abstract a 
    LEFT JOIN
