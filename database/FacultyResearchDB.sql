@@ -122,28 +122,27 @@ INSERT INTO Faculty (firstName, lastName, phone, email, building, office) VALUES
 
 -- Stored Procedure to Display Abstracts and Associated Authors with Truncated Content
 DROP PROCEDURE IF EXISTS GetAbstractsInfo;
+DELIMITER $$
 
-DELIMITER //
-
-CREATE PROCEDURE GetAbstractsInfo()
+CREATE PROCEDURE GetAbstractsInfo() 
 BEGIN
-    SELECT 
-        a.title AS `Abstract Title`,
-        GROUP_CONCAT(CONCAT(f.firstName, ' ', f.lastName) ORDER BY f.lastName SEPARATOR ', ') AS `Author(s)`,
-        CONCAT(
-            SUBSTRING_INDEX(a.abstractFile, ' ', 4),
-            IF(LENGTH(a.abstractFile) - LENGTH(REPLACE(a.abstractFile, ' ', '')) > 3, '...', '')
-        ) AS `Abstract (truncated)`
-    FROM 
-        Abstract a
-    LEFT JOIN 
-        Faculty_Abstract fa ON a.abstractID = fa.abstractID
-    LEFT JOIN 
-        Faculty f ON fa.facultyID = f.facultyID
-    GROUP BY 
-        a.abstractID, a.title, a.abstractFile
-    ORDER BY 
-        a.abstractID;
-END //
-
+   SELECT
+      a.title AS `Abstract Title`,
+      GROUP_CONCAT(CONCAT(f.firstName, ' ', f.lastName) 
+                   ORDER BY f.lastName SEPARATOR ', ') AS `Author(s)`,
+      CONCAT(
+         SUBSTRING_INDEX(a.abstractFile, ' ', 4), 
+         IF(LENGTH(a.abstractFile) - LENGTH(REPLACE(a.abstractFile, ' ', '')) > 3, '...', '')
+      ) AS `Abstract (truncated)` 
+   FROM
+      Abstract a 
+   LEFT JOIN
+      Faculty_Abstract fa ON a.abstractID = fa.abstractID 
+   LEFT JOIN
+      Faculty f ON fa.facultyID = f.facultyID 
+   GROUP BY
+      a.abstractID, a.title, a.abstractFile 
+   ORDER BY
+      a.abstractID;
+END$$
 DELIMITER ;
