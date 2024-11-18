@@ -10,17 +10,25 @@ import java.sql.*;
 
 public class ResearchDBConnection {
     private static final String URI = "jdbc:mysql://localhost/facultyResearchDB?autoReconnect=true&useSSL=false";
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver"; // Updated driver
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver"; 
     private static final String USER = "root";
     private static final String PASSWORD = "student";
     private Connection conn;
     private static final ResearchDBConnection INSTANCE = new ResearchDBConnection();
 
+    private ResearchDBConnection() {
+        connect();  
+    }
+
     public static ResearchDBConnection getInstance() {
         return INSTANCE;
     }
 
-    public void connect() throws DataLayerException {
+    public Connection getConnection() {
+        return conn;  
+    }
+
+    public void connect() {
         if (conn == null) {
             try {
                 Class.forName(DRIVER);
@@ -33,7 +41,7 @@ public class ResearchDBConnection {
         }
     }
 
-    public void close() throws DataLayerException {
+    public void close() {
         try {
             if (conn != null) {
                 conn.close();
