@@ -13,39 +13,31 @@ public class AbstractDataLayer {
     public AbstractDataLayer() {}
 
     public boolean connect(String databaseName, String userName, String password) {
-        conn = null;
         String url = "jdbc:mysql://localhost/" + databaseName + "?serverTimezone=UTC";
 
         try {
             Class.forName(DEFAULT_DRIVER);
             conn = DriverManager.getConnection(url, userName, password);
             System.out.println("Connected to the database.");
-        } catch (ClassNotFoundException cnfe) {
-            System.out.println("No DB connection");
-            System.out.println("Class not found");
-            System.out.println("ERROR MESSAGE -> " + cnfe);
-            return false;
-        } catch (SQLException sqle) {
-            System.out.println("ERROR SQL Exception in connect()");
-            System.out.println("ERROR MESSAGE -> " + sqle);
-            sqle.printStackTrace();
+            return true;
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("ERROR: Unable to connect to the database: " + e.getMessage());
             return false;
         }
-
-        return conn != null;
     }
 
-    public int insertAbstract(String title, String abstractContent) {
+    public Abstract insertAbstract(Abstract abstractObj) {
         // Check if the abstract already exists
         String checkSql = "SELECT abstractID FROM Abstract WHERE title = ? AND abstractFile = ?";
         try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
-            checkStmt.setString(1, title);
-            checkStmt.setString(2, abstractContent);
+            checkStmt.setString(1, abstractObj.getTitle());
+            checkStmt.setString(2, abstractObj.getContent());
             ResultSet rs = checkStmt.executeQuery();
             if (rs.next()) {
-                // If an existing record is found, return the existing abstractID
-                System.out.println("Abstract already exists: " + title);
-                return rs.getInt("abstractID");
+                // Return the existing abstract if found
+                abstractObj.setId(rs.getInt("abstractID"));
+                System.out.println("Abstract already exists: " + abstractObj.getTitle());
+                return abstractObj;
             }
         } catch (SQLException e) {
             System.out.println("ERROR checking for existing abstract: " + e.getMessage());
@@ -54,18 +46,19 @@ public class AbstractDataLayer {
         // Insert the abstract if it doesn't exist
         String insertSql = "INSERT INTO Abstract (title, abstractFile) VALUES (?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, title);
-            ps.setString(2, abstractContent);
+            ps.setString(1, abstractObj.getTitle());
+            ps.setString(2, abstractObj.getContent());
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                return rs.getInt(1); // Return the generated abstractID
+                abstractObj.setId(rs.getInt(1));
+                return abstractObj;
             }
         } catch (SQLException e) {
             System.out.println("ERROR inserting abstract: " + e.getMessage());
         }
-        return -1;
+        return null;
     }
 
     public Map<String, Integer> getFacultyMap() {
@@ -85,7 +78,7 @@ public class AbstractDataLayer {
 
     public void linkFacultyToAbstract(int facultyID, int abstractID) {
         // Check if the link already exists
-        String checkSql = "SELECT * FROM Faculty_Abstract WHERE facultyID = ? AND abstractID = ?";
+        String checkSql = "SELECT 1 FROM Faculty_Abstract WHERE facultyID = ? AND abstractID = ?";
         try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
             checkStmt.setInt(1, facultyID);
             checkStmt.setInt(2, abstractID);

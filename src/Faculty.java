@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Faculty.java
  * Group 1
@@ -15,6 +18,10 @@ public class Faculty {
     private String email;
     private String building;
     private String office;
+    private List<Abstract> abstracts;
+    private List<Interest> interests;
+
+    public Faculty() {}
 
     /**
      * Faculty Constructor
@@ -34,6 +41,8 @@ public class Faculty {
         this.email = email;
         this.building = building;
         this.office = office;
+        this.interests = new ArrayList<>();
+        this.abstracts = new ArrayList<>();
     }
 
     /** 
@@ -67,5 +76,23 @@ public class Faculty {
     public String getOffice() {return office;}
 
     public void setOffice(String office) {this.office = office;}
+
+    // Getters and Setters for Interests
+    public List<Interest> getInterests() {return interests;}
+
+    public void setInterests(List<Interest> interests) {this.interests = interests;}
+
+    public void addInterest(Interest interest) {this.interests.add(interest);}
+
+    public void removeInterest(Interest interest) {this.interests.remove(interest);}
+
+    // Getters and Setters for Abstracts
+    public List<Abstract> getAbstracts() {return abstracts;}
+
+    public void setAbstracts(List<Abstract> abstracts) {this.abstracts = abstracts;}
+
+    public void addAbstract(Abstract abstractObj) {this.abstracts.add(abstractObj);}
+
+    public void removeAbstract(Abstract abstractObj) {this.abstracts.remove(abstractObj);}
 
 }
