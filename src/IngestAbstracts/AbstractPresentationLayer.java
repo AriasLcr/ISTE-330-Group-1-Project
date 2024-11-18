@@ -77,9 +77,9 @@ public class AbstractPresentationLayer {
                 }
 
                 if (title != null && authors != null && abstractContent.length() > 0) {
-                    int abstractID = dl.insertAbstract(title, abstractContent.toString().trim());
-                    if (abstractID != -1) {
-                        linkAuthorsToAbstract(authors, abstractID, facultyMap);
+                    Abstract abs = dl.insertAbstract(new Abstract(title, abstractContent.toString().trim()));
+                    if (abs.getId() != -1) {
+                        linkAuthorsToAbstract(authors, abs.getId(), facultyMap);
                         System.out.println("Inserted abstract: " + title);
                     } else {
                         System.out.println("Failed to insert abstract: " + title);

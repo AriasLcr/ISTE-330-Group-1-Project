@@ -45,7 +45,7 @@ public class FacultyInputForm extends JFrame {
         File file = fileChooser.getSelectedFile();
         if (file != null && title != null && !title.isEmpty()) {
             try {
-                File destination = new File("ISTE-330-Group-1-Project-main\Abstracts", file.getName());
+                File destination = new File("ISTE-330-Group-1-Project-main/Abstracts", file.getName());
                 Files.copy(file.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 FacultyService.saveAbstract(title, destination.getAbsolutePath());
                 JOptionPane.showMessageDialog(this, "Abstract submitted successfully!");
