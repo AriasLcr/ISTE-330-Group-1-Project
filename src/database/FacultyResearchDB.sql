@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS Major;
 
 CREATE TABLE Major (
     majorID INT PRIMARY KEY AUTO_INCREMENT  COMMENT "Unique identifier for each major",
-    name VARCHAR(40) NOT NULL COMMENT "Name of the major"
+    name VARCHAR(100) NOT NULL COMMENT "Name of the major"
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = "Stores major information";
 
 -- Create Faculty table
@@ -73,7 +73,7 @@ CREATE TABLE Faculty_Abstract (
 DROP TABLE IF EXISTS Interest;
 
 CREATE TABLE Interest (
-    ID INT PRIMARY KEY COMMENT "Unique identifier for each interest",
+    ID INT AUTO_INCREMENT PRIMARY KEY COMMENT "Unique identifier for each interest",
     name VARCHAR(55) NOT NULL COMMENT "Name of the interest",
     interestDescription MEDIUMTEXT COMMENT "Description of the interest"
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = "Stores interests";
@@ -143,3 +143,70 @@ BEGIN
       a.abstractID;
 END$$
 DELIMITER ;
+
+-- Insert Majors into Major table
+INSERT INTO Major (name) VALUES
+('Computer Science'),
+('Software Engineering'),
+('Game Design and Development'),
+('Human-Centered Computing'),
+('Computing Security'),
+('Data Science'),
+('Web and Mobile Computing'),
+('Artificial Intelligence and Machine Learning');
+
+-- Insert Students into Student table
+INSERT INTO Student (firstName, lastName, phone, email, majorID) VALUES
+('John', 'Doe', '(585) 123-4567', 'johndoe@rit.edu', 1),
+('Jane', 'Smith', '(585) 765-4321', 'janesmith@rit.edu', 2),
+('Alex', 'Johnson', '(585) 234-5678', 'alexjohnson@rit.edu', 3),
+('Emily', 'Davis', '(585) 345-6789', 'emilydavis@rit.edu', 4),
+('Chris', 'Brown', '(585) 456-7890', 'chrisbrown@rit.edu', 5),
+('Sam', 'Taylor', '(585) 567-8901', 'samtaylor@rit.edu', 6),
+('Taylor', 'Anderson', '(585) 678-9012', 'tayloranderson@rit.edu', 7),
+('Jordan', 'Lee', '(585) 789-0123', 'jordanlee@rit.edu', 8);
+
+-- Insert Interests into Interest table
+INSERT INTO Interest (name, interestDescription) VALUES
+('Cybersecurity', 'Focus on security threats and mitigation'),
+('Artificial Intelligence', 'Building intelligent systems'),
+('Game Development', 'Creating and designing video games'),
+('Human-Computer Interaction', 'Improving interaction between humans and computers'),
+('Mobile Development', 'Developing mobile applications'),
+('Data Analysis', 'Analyzing and interpreting data'),
+('Web Development', 'Building and maintaining websites'),
+('Machine Learning', 'Training systems to learn from data');
+
+-- Link Students to Interests in Student_Interest table
+INSERT INTO Student_Interest (studentID, interestID) VALUES
+(1, 2), -- John Doe is interested in Artificial Intelligence
+(1, 6), -- John Doe is also interested in Data Analysis
+(2, 1), -- Jane Smith is interested in Cybersecurity
+(3, 3), -- Alex Johnson is interested in Game Development
+(4, 4), -- Emily Davis is interested in Human-Computer Interaction
+(5, 5), -- Chris Brown is interested in Mobile Development
+(6, 8), -- Sam Taylor is interested in Machine Learning
+(7, 7), -- Taylor Anderson is interested in Web Development
+(8, 2); -- Jordan Lee is interested in Artificial Intelligence
+
+-- Link Faculty to Interests in Faculty_Interest table
+INSERT INTO Faculty_Interest (facultyID, interestID) VALUES
+(1, 2), -- Armstrong Subero specializes in Artificial Intelligence
+(1, 6), -- Armstrong Subero also specializes in Data Analysis
+(2, 1), -- Ashish Gupta specializes in Cybersecurity
+(3, 3), -- Barbara Ericson specializes in Game Development
+(4, 4), -- Carlos Oliveira specializes in Human-Computer Interaction
+(5, 5), -- David Sutton specializes in Mobile Development
+(6, 8), -- George Defenbaugh specializes in Machine Learning
+(7, 7); -- Richard Smedley specializes in Web Development
+
+
+-- Populate Account table for Faculty
+INSERT INTO Account (email, password, type) 
+SELECT email, 'faculty_password', 'Faculty'
+FROM Faculty;
+
+-- Populate Account table for Students
+INSERT INTO Account (email, password, type) 
+SELECT email, 'student_password', 'Student'
+FROM Student;
