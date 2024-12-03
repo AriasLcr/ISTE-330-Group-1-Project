@@ -1,8 +1,8 @@
 package controller;
 
 import model.*;
+import view.*;
 import java.sql.*;
-import java.util.List;
 import java.util.Scanner;
 
 public class Controller {
@@ -11,6 +11,9 @@ public class Controller {
     private AbstractDAO abstractDAO;
     private InterestDAO interestDAO;
     private AccountDAO accountDAO;
+    private MajorDAO majorDAO;
+    
+    private View view;
     private Scanner scanner;
 
     public Controller() {
@@ -19,12 +22,15 @@ public class Controller {
         abstractDAO = new AbstractDAO();
         interestDAO = new InterestDAO();
         accountDAO = new AccountDAO();
+        majorDAO = new MajorDAO();
         scanner = new Scanner(System.in);
+
+        view = new View(facultyDAO, studentDAO, abstractDAO, interestDAO, accountDAO, majorDAO, scanner);
     }
 
     // Entry point
     public void start() {
-        System.out.print("Enter MySQL password: ");
+        System.out.print("Enter MySQL password (default: student): ");
         String password = scanner.nextLine();
 
         try {
@@ -38,17 +44,17 @@ public class Controller {
 
             // Process abstracts from the directory at startup
             System.out.println("Processing abstracts from the directory...");
-            String abstractsFolderPath = "./abstracts/"; // assuming you are running from src folder
-            int defaultFacultyID = 1; // Replace this with dynamic faculty ID input or a configuration
-            AbstractFileProcessor.processDirectory(abstractsFolderPath, abstractDAO, defaultFacultyID);
+            String abstractsFolderPath = "../src/abstracts/"; // This is assuming that the project is being run from the classes directory
+            AbstractFileProcessor.processDirectory(abstractsFolderPath, abstractDAO, facultyDAO);
 
             // Continue with the program
             while (true) {
                 printHeader("Main Menu");
-                System.out.println("1. Login");
-                System.out.println("2. View Abstracts (Public)");
-                System.out.println("3. Exit");
-                int choice = getUserChoice(1, 3);
+                System.out.println("1. Login using email (Faculty/Student)");
+                System.out.println("2. Login as a guest");
+                System.out.println("3. View Abstracts (Public)");
+                System.out.println("4. Exit");
+                int choice = getUserChoice(1, 4);
 
                 switch (choice) {
                     case 1:
@@ -59,13 +65,23 @@ public class Controller {
                         }
                         break;
                     case 2:
+                        System.out.println("Guest login successful! Welcome, Guest");
                         try {
-                            viewAbstracts();
+                            handlePublicLogin();
+                        } catch (Exception e) {
+                            System.out.println("An error occurred: " + e.getMessage());
+                        }
+                        break;
+                    case 3:
+                        try {
+                            printHeader("Public Abstracts");
+                            view.viewAbstracts();
                         } catch (SQLException e) {
                             System.out.println("Error while fetching abstracts: " + e.getMessage());
                         }
                         break;
-                    case 3:
+                        
+                    case 4:
                         System.out.println("Goodbye!");
                         return; // Exit the program
                 }
@@ -77,10 +93,44 @@ public class Controller {
         }
     }
 
+    public String getAccountName(String email, String type) throws SQLException {
+        String name = "";
+        String tableName;
+        String idColumn;
     
+        // Validate the type and map it to the corresponding table and column
+        if ("student".equalsIgnoreCase(type)) {
+            tableName = "Student";
+            idColumn = "studentID";
+        } else if ("faculty".equalsIgnoreCase(type)) {
+            tableName = "Faculty";
+            idColumn = "facultyID";
+        } else {
+            throw new IllegalArgumentException("Invalid account type: " + type);
+        }
+    
+        // Construct the query dynamically
+        String query = "SELECT firstName, lastName FROM " + tableName + " " +
+                       "JOIN Account a ON " + tableName + "." + idColumn + " = a.accountID " +
+                       "WHERE a.email = ?";
+    
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                name = firstName + " " + lastName; // Combine first and last name
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching account name: " + e.getMessage());
+        }
+        return name;
+    }
 
     // Handles user login and directs to specific workflows
-    private void handleLogin() throws SQLException {
+    private void handleLogin() throws SQLException, InterruptedException {
         printHeader("Login");
         System.out.print("Enter your email: ");
         String email = scanner.nextLine();
@@ -89,7 +139,7 @@ public class Controller {
 
         if (accountDAO.validateLogin(email, password)) {
             Account account = accountDAO.getAccountByEmail(email);
-            System.out.println("Login successful! Welcome, " + account.getType());
+            System.out.println("Login successful! Welcome, " + getAccountName(email, account.getType().toLowerCase()));
 
             if (account.getType().equalsIgnoreCase("Faculty")) {
                 handleFaculty(account);
@@ -102,34 +152,82 @@ public class Controller {
     }
 
     // Faculty-specific workflow
-    private void handleFaculty(Account facultyAccount) throws SQLException {
+    private void handleFaculty(Account facultyAccount) throws SQLException, InterruptedException {
         int facultyID = getFacultyID(facultyAccount);
         while (true) {
             printHeader("Faculty Menu");
             System.out.println("1. Upload an Abstract");
             System.out.println("2. View Your Abstracts");
             System.out.println("3. Manage Interests");
-            System.out.println("4. Back to Main Menu");
-            int choice = getUserChoice(1, 4);
+            System.out.println("4. View Students by Major");
+            System.out.println("5. View Students by Interest");
+            System.out.println("6. Back to Main Menu");
+            int choice = getUserChoice(1, 6);
 
             switch (choice) {
                 case 1:
+                    printHeader("Upload Abstract");
                     uploadAbstract(facultyID);
-                    break;
+                    continue;
                 case 2:
-                    viewFacultyAbstracts(facultyID);
-                    break;
+                    printHeader("View Faculty Abstracts");
+                    view.viewFacultyAbstracts(facultyID);
+                    continue;
                 case 3:
                     handleFacultyInterests(facultyID);
-                    break;
+                    continue;
+                case 4:
+                    printHeader("View Students by Major");
+                    view.viewStudentsByMajor();
+                    continue;
+                case 5:
+                    printHeader("View Students by Interest");
+                    view.viewStudentsByInterest();
+                    continue;
+                case 6:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    continue;
+            }
+        }
+    }
+
+    // Public login workflow
+    private void handlePublicLogin() throws SQLException, InterruptedException {
+        while (true) {
+            printHeader("Guest Menu");
+            System.out.println("1. View Faculty by Interest");
+            System.out.println("2. View Faculty by Abstract");
+            System.out.println("3. View Students by Interest");
+            System.out.println("4. Back to Main Menu");
+
+            int choice = getUserChoice(1, 4);
+            
+            switch (choice) {
+                case 1:
+                    printHeader("View Faculty by Interest");
+                    view.viewFacultyByInterest();
+                    continue;
+                case 2:
+                    printHeader("View Faculty by Abstract");
+                    view.viewFacultyByAbstract();
+                    continue;
+                case 3:
+                    printHeader("View Students by Interest");
+                    view.viewStudentsByInterest();
+                    continue;
                 case 4:
                     return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    continue;
             }
         }
     }
 
     // Handles abstract uploads for faculty
-    private void uploadAbstract(int facultyID) throws SQLException {
+    private void uploadAbstract(int facultyID) throws SQLException, InterruptedException {
         printHeader("Upload Abstract");
         System.out.print("Enter the title of the abstract: ");
         String title = scanner.nextLine();
@@ -142,32 +240,19 @@ public class Controller {
         System.out.println("Abstract uploaded successfully!");
     }
 
-    private void viewFacultyAbstracts(int facultyID) throws SQLException {
-        System.out.println("Fetching abstracts for faculty ID " + facultyID + "...");
-        var abstracts = abstractDAO.getAbstractsByFaculty(facultyID);
 
-        if (abstracts.isEmpty()) {
-            System.out.println("No abstracts found for faculty ID " + facultyID);
-        } else {
-            for (Abstract a : abstracts) {
-                System.out.println("Title: " + a.getTitle());
-                System.out.println("Content: " + a.getAbstractFile());
-                System.out.println("---------------------------------");
-            }
-        }
-    }
-
-    private void handleFacultyInterests(int facultyID) throws SQLException {
+    private void handleFacultyInterests(int facultyID) throws SQLException, InterruptedException {
+        printHeader("Manage Interests");
         System.out.println("Would you like to (1) Add an Interest or (2) View Interests?");
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Clear the buffer
+        scanner.nextLine();
     
         InterestDAO interestDAO = new InterestDAO();
     
         if (choice == 1) {
             System.out.println("Enter the interest ID to link:");
             int interestID = scanner.nextInt();
-            scanner.nextLine(); // Clear the buffer
+            scanner.nextLine();
     
             interestDAO.linkInterestToFaculty(facultyID, interestID);
             System.out.println("Interest linked successfully.");
@@ -183,30 +268,45 @@ public class Controller {
     
 
     // Student-specific workflow
-    private void handleStudent(Account studentAccount) throws SQLException {
+    private void handleStudent(Account studentAccount) throws SQLException, InterruptedException {
         int studentID = getStudentID(studentAccount);
         while (true) {
             printHeader("Student Menu");
             System.out.println("1. Input Research Topics");
             System.out.println("2. View Matched Faculty");
-            System.out.println("3. Back to Main Menu");
-            int choice = getUserChoice(1, 3);
-
+            System.out.println("3. View Faculty by Interest");
+            System.out.println("4. View Faculty by Abstract");
+            System.out.println("5. Back to Main Menu");
+            int choice = getUserChoice(1, 5);
+            
             switch (choice) {
                 case 1:
+                    printHeader("Input Research Topics");
                     inputResearchTopics(studentID);
-                    break;
+                    continue;
                 case 2:
-                    viewMatchedFaculty(studentID);
-                    break;
+                    printHeader("Matched Faculty");
+                    view.viewMatchedFaculty(studentID);
+                    continue;
                 case 3:
+                    printHeader("View Faculty by Interest");
+                    view.viewFacultyByInterest();
+                    continue;
+                case 4:
+                    printHeader("View Faculty by Abstract");
+                    view.viewFacultyByAbstract();
+                    continue;
+                case 5:
                     return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    continue;
             }
         }
     }
 
     // Add research topics for students
-    private void inputResearchTopics(int studentID) throws SQLException {
+    private void inputResearchTopics(int studentID) throws SQLException, InterruptedException {
         printHeader("Input Research Topics");
         System.out.println("Enter your research topics (comma-separated): ");
         String topics = scanner.nextLine();
@@ -218,32 +318,6 @@ public class Controller {
             interestDAO.linkInterestToStudent(studentID, interestID);
         }
         System.out.println("Research topics saved!");
-    }
-
-    // View faculty matched to student's interests
-    private void viewMatchedFaculty(int studentID) throws SQLException {
-        printHeader("Matched Faculty");
-        List<Interest> interests = interestDAO.getInterestsByStudent(studentID);
-
-        for (Interest i : interests) {
-            List<Faculty> matchedFaculty = facultyDAO.getFacultyByInterest(i.getInterestID());
-            System.out.println("Interest: " + i.getName());
-            for (Faculty f : matchedFaculty) {
-                System.out.println("- " + f.getFirstName() + " " + f.getLastName() + " (" + f.getEmail() + ")");
-            }
-        }
-    }
-
-    // Public view of all abstracts
-    private void viewAbstracts() throws SQLException {
-        printHeader("Public Abstracts");
-        List<AbstractInfo> abstracts = abstractDAO.getAbstractsInfo();
-        for (AbstractInfo info : abstracts) {
-            System.out.println("Title: " + info.getTitle());
-            System.out.println("Authors: " + info.getAuthors());
-            System.out.println("Abstract (truncated): " + info.getTruncatedContent());
-            System.out.println("---------------------------------------");
-        }
     }
 
     private int getFacultyID(Account account) {
@@ -277,7 +351,8 @@ public class Controller {
     }
 
     // Utility: Print a header
-    private void printHeader(String title) {
+    private void printHeader(String title) throws InterruptedException{
+        clearScreen();
         System.out.println("=========================================");
         System.out.println(title);
         System.out.println("=========================================");
@@ -297,6 +372,16 @@ public class Controller {
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number.");
             }
+        }
+    }
+
+    // Utility: Clear the screen
+    public void clearScreen() throws InterruptedException {
+        System.out.println();
+        System.out.println("Press Enter to continue...");
+        scanner.nextLine();
+        for (int i = 0; i < 100; i++) {
+            System.out.println();
         }
     }
 }

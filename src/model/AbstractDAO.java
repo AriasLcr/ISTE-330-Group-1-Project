@@ -74,5 +74,36 @@ public class AbstractDAO {
         return abstracts;
     }
 
+    public List<Abstract> getAllAbstracts() throws SQLException {
+        String query = "SELECT * FROM Abstract";
+        List<Abstract> abstracts = new ArrayList<>();
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                abstracts.add(new Abstract(
+                        rs.getInt("abstractID"),
+                        rs.getString("title"),
+                        rs.getString("abstractFile")
+                ));
+            }
+        }
+        return abstracts;
+    }
     
+    public boolean abstractExists(String title, String content) throws SQLException {
+        String query = "SELECT COUNT(*) FROM Abstract WHERE title = ? AND abstractFile = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, title);
+            ps.setString(2, content);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Returns true if at least one match is found
+            }
+        }
+        return false;
+    }
 }

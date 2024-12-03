@@ -4,11 +4,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AbstractFileProcessor {
 
-    public static void processDirectory(String folderPath, AbstractDAO abstractDAO, int facultyID) {
+    public static void processDirectory(String folderPath, AbstractDAO abstractDAO, FacultyDAO facultyDAO) {
         File folder = new File(folderPath);
+
+        System.out.println("Folder Path: " + folderPath);
+        System.out.println("Folder Exists: " + folder.exists());
 
         if (!folder.exists() || !folder.isDirectory()) {
             System.out.println("Error: The specified folder does not exist or is not a directory!");
@@ -25,7 +30,7 @@ public class AbstractFileProcessor {
         for (File file : files) {
             System.out.println("Processing file: " + file.getName());
             try {
-                parseAndInsertAbstract(file, abstractDAO, facultyID);
+                parseAndInsertAbstract(file, abstractDAO, facultyDAO);
                 System.out.println("Successfully processed: " + file.getName());
             } catch (Exception e) {
                 System.err.println("Error processing file " + file.getName() + ": " + e.getMessage());
@@ -33,9 +38,9 @@ public class AbstractFileProcessor {
         }
     }
 
-    private static void parseAndInsertAbstract(File file, AbstractDAO abstractDAO, int facultyID) throws Exception {
+    private static void parseAndInsertAbstract(File file, AbstractDAO abstractDAO, FacultyDAO facultyDAO) throws Exception {
         String title = null;
-        String author = null;
+        String authorLine = null;
         StringBuilder abstractContent = new StringBuilder();
 
         // Read the file
@@ -45,7 +50,7 @@ public class AbstractFileProcessor {
                 if (line.startsWith("Title:")) {
                     title = line.replace("Title:", "").trim();
                 } else if (line.startsWith("By:")) {
-                    author = line.replace("By:", "").trim();
+                    authorLine = line.replace("By:", "").trim();
                 } else if (line.startsWith("Abstract:")) {
                     abstractContent.append(line.replace("Abstract:", "").trim()).append(" ");
                 } else {
@@ -58,15 +63,52 @@ public class AbstractFileProcessor {
             throw new Exception("Invalid file format: Missing title or abstract content.");
         }
 
-        // Save the abstract to the database and link it to the faculty
+        // Check if the abstract already exists
+        if (abstractDAO.abstractExists(title, abstractContent.toString())) {
+            System.out.println("Abstract titled '" + title + "' already exists. Skipping.");
+            return;
+        }
+
+        // Save the abstract to the database
+        int abstractID;
         try {
             Abstract newAbstract = new Abstract(0, title, abstractContent.toString());
-            int abstractID = abstractDAO.saveAbstract(newAbstract);
-            abstractDAO.linkAbstractToFaculty(facultyID, abstractID);
-            System.out.println("Abstract titled '" + title + "' linked to faculty ID " + facultyID);
+            abstractID = abstractDAO.saveAbstract(newAbstract);
+            System.out.println("Abstract titled '" + title + "' saved to the database.");
         } catch (SQLException e) {
             throw new Exception("Failed to save abstract to the database: " + e.getMessage());
         }
+
+        // Link authors to the abstract
+        if (authorLine != null) {
+            String[] authors = authorLine.split(","); // Split authors by commas
+            List<String[]> authorNames = new ArrayList<>();
+
+            for (String author : authors) {
+                String[] nameParts = author.trim().split(" "); // Split first and last name
+                if (nameParts.length >= 2) {
+                    authorNames.add(new String[]{nameParts[0], nameParts[1]}); // Add first and last name
+                }
+            }
+
+            for (String[] name : authorNames) {
+                String firstName = name[0];
+                String lastName = name[1];
+
+                // Get the faculty ID based on the name
+                int facultyID = facultyDAO.getFacultyIDByName(firstName, lastName);
+
+                if (facultyID > 0) {
+                    try {
+                        abstractDAO.linkAbstractToFaculty(facultyID, abstractID);
+                        System.out.println("Linked abstract '" + title + "' to faculty: " + firstName + " " + lastName);
+                    } catch (SQLException e) {
+                        System.err.println("Failed to link abstract '" + title + "' to faculty: " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Faculty member '" + firstName + " " + lastName + "' not found in the database. Skipping link.");
+                }
+            }
+        }
     }
 }
-

@@ -7,7 +7,7 @@ import java.util.List;
 public class InterestDAO {
     public List<Interest> getInterestsByStudent(int studentID) throws SQLException {
         String query = "SELECT i.* FROM Interest i " +
-                       "JOIN Student_Interest si ON i.interestID = si.interestID " +
+                       "JOIN Student_Interest si ON i.ID = si.interestID " +
                        "WHERE si.studentID = ?";
 
         List<Interest> interestList = new ArrayList<>();
@@ -18,9 +18,9 @@ public class InterestDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Interest interest = new Interest(
-                    rs.getInt("interestID"),
+                    rs.getInt("ID"),
                     rs.getString("name"),
-                    rs.getString("description")
+                    rs.getString("interestDescription")
                 );
                 interestList.add(interest);
             }
@@ -93,6 +93,25 @@ public class InterestDAO {
             ps.executeUpdate();
             System.out.println("Successfully unlinked faculty ID " + facultyID + " from interest ID " + interestID);
         }
+    }
+
+    public List<Interest> getAllInterests() throws SQLException {
+        String query = "SELECT * FROM Interest";
+        List<Interest> interests = new ArrayList<>();
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                interests.add(new Interest(
+                        rs.getInt("ID"),
+                        rs.getString("name"),
+                        rs.getString("interestDescription")
+                ));
+            }
+        } catch (Exception e) {
+            System.out.println("Error in InterestDAO.getAllInterests: " + e.getMessage());
+        }
+        return interests;
     }
     
 }
