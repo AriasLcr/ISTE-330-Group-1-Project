@@ -1,5 +1,14 @@
 package model;
 
+/**
+ * DatabaseConnection.java
+ * Establish a connection with the database
+ * Group 1: Gabriel Arias, John Arquette, Hiba Arshad, Richard Zheng
+ * December 2024
+ * ISTE 330
+ * Instructor: Jim Habermas
+ */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

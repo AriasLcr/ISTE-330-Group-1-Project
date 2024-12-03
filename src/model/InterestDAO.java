@@ -1,5 +1,14 @@
 package model;
 
+/**
+ * InterestDAO.java
+ * Interest Data Access Object
+ * Group 1: Gabriel Arias, John Arquette, Hiba Arshad, Richard Zheng
+ * December 2024
+ * ISTE 330
+ * Instructor: Jim Habermas
+ */
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

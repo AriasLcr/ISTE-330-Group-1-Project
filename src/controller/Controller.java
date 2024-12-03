@@ -1,5 +1,13 @@
 package controller;
 
+/**
+ * Controller.java
+ * Controller class for the application
+ * Group 1: Gabriel Arias, John Arquette, Hiba Arshad, Richard Zheng
+ * December 2024
+ * Instructor: Jim Habermas
+ */
+
 import model.*;
 import view.*;
 import java.sql.*;

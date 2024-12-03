@@ -1,5 +1,14 @@
 package model;
 
+/**
+ * AbstractInfo.java
+ * Model class for abstract information
+ * Group 1: Gabriel Arias, John Arquette, Hiba Arshad, Richard Zheng
+ * December 2024
+ * ISTE 330
+ * Instructor: Jim Habermas
+ */
+
 public class AbstractInfo {
     private String title;
     private String authors;

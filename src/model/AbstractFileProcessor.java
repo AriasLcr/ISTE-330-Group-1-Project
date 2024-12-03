@@ -1,5 +1,14 @@
 package model;
 
+/**
+ * AbstractFileProcessor.java
+ * File processor for abstract files
+ * Group 1: Gabriel Arias, John Arquette, Hiba Arshad, Richard Zheng
+ * December 2024
+ * ISTE 330
+ * Instructor: Jim Habermas
+ */
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

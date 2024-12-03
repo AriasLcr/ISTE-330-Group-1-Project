@@ -1,5 +1,14 @@
 package model;
 
+/**
+ * Major.java
+ * Major Model
+ * Group 1: Gabriel Arias, John Arquette, Hiba Arshad, Richard Zheng
+ * December 2024
+ * ISTE 330
+ * Instructor: Jim Habermas
+ */
+
 public class Major {
     private int majorID;
     private String name;

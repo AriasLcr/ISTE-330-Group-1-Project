@@ -1,5 +1,14 @@
 package model;
 
+/**
+ * Account.java
+ * Model class for account information
+ * Group 1: Gabriel Arias, John Arquette, Hiba Arshad, Richard Zheng
+ * December 2024
+ * ISTE 330
+ * Instructor: Jim Habermas
+ */
+
 public class Account {
     private int accountID;
     private String email;

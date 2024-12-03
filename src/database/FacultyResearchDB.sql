@@ -1,4 +1,8 @@
--- FacultyResearchDB
+-- FacultyResearchDB.sql
+-- Group 1: Gabriel Arias, John Arquette, Hiba Arshad, Richard Zheng
+-- December 2024
+-- Instructor: Jim Habermas
+-- ISTE-330
 
 DROP DATABASE IF EXISTS facultyResearchDB;
 

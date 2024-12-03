@@ -1,5 +1,14 @@
 package view;
 
+/**
+ * View.java
+ * View class for the application
+ * Group 1: Gabriel Arias, John Arquette, Hiba Arshad, Richard Zheng
+ * December 2024
+ * ISTE 330
+ * Instructor: Jim Habermas
+ */
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
