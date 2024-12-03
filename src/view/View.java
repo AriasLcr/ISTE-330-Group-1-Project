@@ -170,4 +170,12 @@ public class View {
         }
     }
 
+    public void viewStudentInterests(int studentID) throws SQLException {
+        List<Interest> interests = interestDAO.getInterestsByStudent(studentID);
+        System.out.println("Your interests:");
+        for (Interest i : interests) {
+            System.out.println("- " + i.getName());
+        }
+    }
+
 }

@@ -96,23 +96,19 @@ public class Controller {
     public String getAccountName(String email, String type) throws SQLException {
         String name = "";
         String tableName;
-        String idColumn;
     
         // Validate the type and map it to the corresponding table and column
         if ("student".equalsIgnoreCase(type)) {
             tableName = "Student";
-            idColumn = "studentID";
         } else if ("faculty".equalsIgnoreCase(type)) {
             tableName = "Faculty";
-            idColumn = "facultyID";
         } else {
             throw new IllegalArgumentException("Invalid account type: " + type);
         }
     
-        // Construct the query dynamically
-        String query = "SELECT firstName, lastName FROM " + tableName + " " +
-                       "JOIN Account a ON " + tableName + "." + idColumn + " = a.accountID " +
-                       "WHERE a.email = ?";
+        String query = "SELECT s.firstName, s.lastName FROM " + tableName + " s " +
+               "JOIN Account a ON s.email = a.email " +
+               "WHERE a.email = ?";
     
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(query)) {
@@ -155,7 +151,7 @@ public class Controller {
     private void handleFaculty(Account facultyAccount) throws SQLException {
         int facultyID = getFacultyID(facultyAccount);
         while (true) {
-            printHeader("Faculty Menu");
+            printHeader("Faculty Menu (" + getAccountName(facultyAccount.getEmail(), facultyAccount.getType()) + ")");
             System.out.println("1. Upload an Abstract");
             System.out.println("2. View Your Abstracts");
             System.out.println("3. Manage Interests");
@@ -270,14 +266,16 @@ public class Controller {
     // Student-specific workflow
     private void handleStudent(Account studentAccount) throws SQLException {
         int studentID = getStudentID(studentAccount);
+        String studentName = getAccountName(studentAccount.getEmail(), studentAccount.getType());
         while (true) {
-            printHeader("Student Menu");
+            printHeader("Student Menu (" + studentName + ")");
             System.out.println("1. Input Research Topics");
             System.out.println("2. View Matched Faculty");
             System.out.println("3. View Faculty by Interest");
             System.out.println("4. View Faculty by Abstract");
-            System.out.println("5. Back to Main Menu");
-            int choice = getUserChoice(1, 5);
+            System.out.println("5. View your Interests");
+            System.out.println("6. Back to Main Menu");
+            int choice = getUserChoice(1, 6);
             
             switch (choice) {
                 case 1:
@@ -297,6 +295,10 @@ public class Controller {
                     view.viewFacultyByAbstract();
                     continue;
                 case 5:
+                    printHeader("View your Interests " + studentName);
+                    view.viewStudentInterests(studentID);
+                    continue;
+                case 6:
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
