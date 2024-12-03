@@ -26,7 +26,7 @@ public class View {
         this.scanner = scanner;
     }
 
-    public void viewFacultyByInterest() throws SQLException, InterruptedException {
+    public void viewFacultyByInterest() throws SQLException {
         System.out.println("Fetching all interests...");
         List<Interest> interests = interestDAO.getAllInterests();
 
@@ -36,8 +36,9 @@ public class View {
 
         System.out.print("Enter the interest ID to view faculty: ");
         int interestID = scanner.nextInt();
+        scanner.nextLine();
         String interestName = interests.get(interestID - 1).getName();
-        System.out.println("Fetching faculty for " + interestName + "...");
+        System.out.println("\nFetching faculty for " + interestName + "...\n");
 
         List<Faculty> faculty = facultyDAO.getFacultyByInterest(interestID);
         if (faculty.isEmpty()) {
@@ -51,7 +52,7 @@ public class View {
         }
     }
 
-    public void viewFacultyByAbstract() throws SQLException, InterruptedException {
+    public void viewFacultyByAbstract() throws SQLException {
         System.out.println("Fetching all abstracts...");
         List<Abstract> abstracts = abstractDAO.getAllAbstracts();
 
@@ -61,14 +62,16 @@ public class View {
 
         System.out.print("Enter the abstract ID to view faculty: ");
         int abstractID = scanner.nextInt();
+        scanner.nextLine();
 
-        System.out.println("Fetching faculty for abstract ID " + abstractID + "...");
+        System.out.println("\nFetching faculty for abstract ID " + abstractID + "... \n");
 
         List<Faculty> faculty = facultyDAO.getFacultyByAbstract(abstractID);
         if (faculty.isEmpty()) {
             System.out.println("No faculty found for abstract ID " + abstractID);
         } else {
             for (Faculty f : faculty) {
+                
                 System.out.println("Name: " + f.getFirstName() + " " + f.getLastName());
                 System.out.println("Email: " + f.getEmail());
                 System.out.println("---------------------------------");
@@ -76,7 +79,7 @@ public class View {
         }
     }
 
-    public void viewStudentsByMajor() throws SQLException, InterruptedException {
+    public void viewStudentsByMajor() throws SQLException {
         System.out.println("Fetching all majors...");
         List<Major> majors = majorDAO.getAllMajors();
         int majorID = 0;
@@ -87,7 +90,7 @@ public class View {
         System.out.println("Enter the major ID to view students: ");
         majorID = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Fetching students for major ID " + majorID + "...");
+        System.out.println("\nFetching students for major ID " + majorID + "...\n");
 
         var students = studentDAO.getStudentsByMajor(majorID);
         if (students.isEmpty()) {
@@ -101,7 +104,7 @@ public class View {
         }
     }
 
-    public void viewStudentsByInterest() throws InterruptedException, SQLException {
+    public void viewStudentsByInterest() throws SQLException {
         System.out.println("Fetching all interests...");
         List<Interest> interests = interestDAO.getAllInterests();
 
@@ -111,8 +114,9 @@ public class View {
 
         System.out.print("Enter the interest ID to view students: ");
         int interestID = scanner.nextInt();
+        scanner.nextLine();
         String interestName = interests.get(interestID - 1).getName();
-        System.out.println("Fetching students for " + interestName + "...");
+        System.out.println("\nFetching students for " + interestName + "...\n");
         List<Student> students = studentDAO.getStudentsByInterest(interestID);
 
         if (students.isEmpty()) {
@@ -127,8 +131,8 @@ public class View {
     }
 
     
-    public void viewFacultyAbstracts(int facultyID) throws SQLException, InterruptedException {
-        System.out.println("Fetching abstracts for faculty ID " + facultyID + "...");
+    public void viewFacultyAbstracts(int facultyID) throws SQLException {
+        System.out.println("\nFetching abstracts for faculty ID " + facultyID + "...\n");
         var abstracts = abstractDAO.getAbstractsByFaculty(facultyID);
 
         if (abstracts.isEmpty()) {

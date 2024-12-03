@@ -130,7 +130,7 @@ public class Controller {
     }
 
     // Handles user login and directs to specific workflows
-    private void handleLogin() throws SQLException, InterruptedException {
+    private void handleLogin() throws SQLException {
         printHeader("Login");
         System.out.print("Enter your email: ");
         String email = scanner.nextLine();
@@ -152,7 +152,7 @@ public class Controller {
     }
 
     // Faculty-specific workflow
-    private void handleFaculty(Account facultyAccount) throws SQLException, InterruptedException {
+    private void handleFaculty(Account facultyAccount) throws SQLException {
         int facultyID = getFacultyID(facultyAccount);
         while (true) {
             printHeader("Faculty Menu");
@@ -194,7 +194,7 @@ public class Controller {
     }
 
     // Public login workflow
-    private void handlePublicLogin() throws SQLException, InterruptedException {
+    private void handlePublicLogin() throws SQLException {
         while (true) {
             printHeader("Guest Menu");
             System.out.println("1. View Faculty by Interest");
@@ -227,7 +227,7 @@ public class Controller {
     }
 
     // Handles abstract uploads for faculty
-    private void uploadAbstract(int facultyID) throws SQLException, InterruptedException {
+    private void uploadAbstract(int facultyID) throws SQLException {
         printHeader("Upload Abstract");
         System.out.print("Enter the title of the abstract: ");
         String title = scanner.nextLine();
@@ -241,7 +241,7 @@ public class Controller {
     }
 
 
-    private void handleFacultyInterests(int facultyID) throws SQLException, InterruptedException {
+    private void handleFacultyInterests(int facultyID) throws SQLException {
         printHeader("Manage Interests");
         System.out.println("Would you like to (1) Add an Interest or (2) View Interests?");
         int choice = scanner.nextInt();
@@ -268,7 +268,7 @@ public class Controller {
     
 
     // Student-specific workflow
-    private void handleStudent(Account studentAccount) throws SQLException, InterruptedException {
+    private void handleStudent(Account studentAccount) throws SQLException {
         int studentID = getStudentID(studentAccount);
         while (true) {
             printHeader("Student Menu");
@@ -306,7 +306,7 @@ public class Controller {
     }
 
     // Add research topics for students
-    private void inputResearchTopics(int studentID) throws SQLException, InterruptedException {
+    private void inputResearchTopics(int studentID) throws SQLException {
         printHeader("Input Research Topics");
         System.out.println("Enter your research topics (comma-separated): ");
         String topics = scanner.nextLine();
@@ -351,7 +351,7 @@ public class Controller {
     }
 
     // Utility: Print a header
-    private void printHeader(String title) throws InterruptedException{
+    private void printHeader(String title) {
         clearScreen();
         System.out.println("=========================================");
         System.out.println(title);
@@ -376,7 +376,7 @@ public class Controller {
     }
 
     // Utility: Clear the screen
-    public void clearScreen() throws InterruptedException {
+    public void clearScreen() {
         System.out.println();
         System.out.println("Press Enter to continue...");
         scanner.nextLine();
