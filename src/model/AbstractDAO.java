@@ -36,6 +36,14 @@ public class AbstractDAO {
         }
         return abstractList;
     }
+    public void deleteAbstract(int abstractID) throws SQLException {
+       String query = "DELETE FROM Abstract WHERE abstractID = ?";
+       try (Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(query)) {
+           ps.setInt(1, abstractID);
+           ps.executeUpdate();
+        }
+    }
 
     public int saveAbstract(Abstract abstractData) throws SQLException {
         String query = "INSERT INTO Abstract (title, abstractFile) VALUES (?, ?)";

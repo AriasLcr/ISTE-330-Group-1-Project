@@ -12,6 +12,7 @@ import model.*;
 import view.*;
 import java.sql.*;
 import java.util.Scanner;
+import java.util.List;
 
 public class Controller {
     private FacultyDAO facultyDAO;
@@ -162,11 +163,12 @@ public class Controller {
             printHeader("Faculty Menu (" + getAccountName(facultyAccount.getEmail(), facultyAccount.getType()) + ")");
             System.out.println("1. Upload an Abstract");
             System.out.println("2. View Your Abstracts");
-            System.out.println("3. Manage Interests");
-            System.out.println("4. View Students by Major");
-            System.out.println("5. View Students by Interest");
-            System.out.println("6. Back to Main Menu");
-            int choice = getUserChoice(1, 6);
+            System.out.println("3. Delete an Abstract");
+            System.out.println("4. Manage Interests");
+            System.out.println("5. View Students by Major");
+            System.out.println("6. View Students by Interest");
+            System.out.println("7. Back to Main Menu");
+            int choice = getUserChoice(1, 7);
 
             switch (choice) {
                 case 1:
@@ -178,17 +180,21 @@ public class Controller {
                     view.viewFacultyAbstracts(facultyID);
                     continue;
                 case 3:
+                   printHeader("Delete an Abstract"); 
+                   deleteAbstract(facultyID);
+                   continue;
+                case 4:
                     handleFacultyInterests(facultyID);
                     continue;
-                case 4:
+                case 5:
                     printHeader("View Students by Major");
                     view.viewStudentsByMajor();
                     continue;
-                case 5:
+                case 6:
                     printHeader("View Students by Interest");
                     view.viewStudentsByInterest();
                     continue;
-                case 6:
+                case 7:
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -243,6 +249,27 @@ public class Controller {
         abstractDAO.linkAbstractToFaculty(facultyID, abstractID);
         System.out.println("Abstract uploaded successfully!");
     }
+    
+    //handles abstract deletion
+    private void deleteAbstract(int facultyID) throws SQLException {
+       List<Abstract> abstracts = abstractDAO.getAbstractsByFaculty(facultyID);
+       if (abstracts.isEmpty()) {
+           System.out.println("No abstracts found to delete.");
+           return;
+       }
+
+    System.out.println("Select an abstract to delete:");
+    for (int i = 0; i < abstracts.size(); i++) {
+        System.out.println((i + 1) + ". " + abstracts.get(i).getTitle());
+    }
+
+    int choice = getUserChoice(1, abstracts.size());
+    Abstract selectedAbstract = abstracts.get(choice - 1);
+
+    abstractDAO.deleteAbstract(selectedAbstract.getAbstractID());
+    System.out.println("Abstract titled '" + selectedAbstract.getTitle() + "' has been deleted.");
+}
+
 
 
     private void handleFacultyInterests(int facultyID) throws SQLException {
