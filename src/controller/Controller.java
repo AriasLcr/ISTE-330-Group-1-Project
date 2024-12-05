@@ -172,7 +172,6 @@ public class Controller {
 
             switch (choice) {
                 case 1:
-                    printHeader("Upload Abstract");
                     uploadAbstract(facultyID);
                     continue;
                 case 2:
@@ -180,7 +179,6 @@ public class Controller {
                     view.viewFacultyAbstracts(facultyID);
                     continue;
                 case 3:
-                   printHeader("Delete an Abstract"); 
                    deleteAbstract(facultyID);
                    continue;
                 case 4:
@@ -252,23 +250,24 @@ public class Controller {
     
     //handles abstract deletion
     private void deleteAbstract(int facultyID) throws SQLException {
+        printHeader("Delete an Abstract"); 
        List<Abstract> abstracts = abstractDAO.getAbstractsByFaculty(facultyID);
        if (abstracts.isEmpty()) {
            System.out.println("No abstracts found to delete.");
            return;
        }
 
-    System.out.println("Select an abstract to delete:");
-    for (int i = 0; i < abstracts.size(); i++) {
-        System.out.println((i + 1) + ". " + abstracts.get(i).getTitle());
+        System.out.println("Select an abstract to delete:");
+        for (int i = 0; i < abstracts.size(); i++) {
+            System.out.println((i + 1) + ". " + abstracts.get(i).getTitle());
+        }
+
+        int choice = getUserChoice(1, abstracts.size());
+        Abstract selectedAbstract = abstracts.get(choice - 1);
+
+        abstractDAO.deleteAbstract(selectedAbstract.getAbstractID());
+        System.out.println("Abstract titled '" + selectedAbstract.getTitle() + "' has been deleted.");
     }
-
-    int choice = getUserChoice(1, abstracts.size());
-    Abstract selectedAbstract = abstracts.get(choice - 1);
-
-    abstractDAO.deleteAbstract(selectedAbstract.getAbstractID());
-    System.out.println("Abstract titled '" + selectedAbstract.getTitle() + "' has been deleted.");
-}
 
 
 
