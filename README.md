@@ -133,11 +133,14 @@ As a faculty member, you can:
 
 2. **View Your Abstracts**
    - See all abstracts you have uploaded.
+  
+3. **Delete Your Abstracts**
+   - Delete any abstract you are an author of.
 
-3. **Manage Interests**
+4. **Manage Interests**
    - Add or view interests relevant to your research.
 
-4. **View Students**
+5. **View Students**
    - Search students by major or interests.
 
 ---
